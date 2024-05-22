@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #222;
+        }
+
+        .login-container {
+            background: #333;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 320px;
+            position: relative;
+            animation: slideIn 1s ease;
+        }
+
+        .login-header {
+            background: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .login-header h1 {
+            margin: 0;
+            opacity: 0;
+            animation: moveIn 1s ease forwards;
+        }
+
+        .login-form {
+            padding: 20px;
+        }
+
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .login-form input[type="text"],
+        .login-form input[type="password"],
+        .login-form input[type="submit"] {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .login-form input[type="submit"] {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            outline: none;
+        }
+
+        .login-form input[type="submit"]:hover {
+            background: #0056b3;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .signup-link a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link a:hover {
+            color: #0056b3;
+        }
+
+        @keyframes slideIn {
+            from {
+                top: -50px;
+                opacity: 0;
+            }
+            to {
+                top: 0;
+                opacity: 1;
+            }
+        }
+
+        @keyframes moveIn {
+            from {
+                transform: translateY(-50px);
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Login</h1>
+        </div>
+        <form class="login-form" method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Login">
+        </form>
+        <div class="signup-link">
+            <a href="{% url 'signup' %}">Don't have an account? Create one</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var header = document.querySelector('.login-header h1');
+            header.style.opacity = "1";
+        });
+    </script>
+</body>
+</html>

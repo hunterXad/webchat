@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Rooms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eff0f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+        .chat-room {
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .room-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .room-name {
+            flex-grow: 1;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .room-name:hover {
+            text-decoration: underline;
+        }
+        .delete-room-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .delete-room-btn:hover {
+            background-color: #c82333;
+        }
+        .disabled-btn {
+            background-color: #ccc;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Chat Rooms</h2>
+        {% for room in rooms %}
+            <div class="chat-room">
+                {% if room.room_image %}
+                    <img class="room-image" src="{{ room.room_image.url }}" alt="{{ room.name }}">
+                {% else %}
+                    <div class="room-image" style="background-color: #ccc;"></div>
+                {% endif %}
+                <a class="room-name" href="{% url 'chat_room' room.id %}">{{ room.name }}</a>
+                <form action="{% url 'delete_chat_room' room.id %}" method="post">
+                    {% csrf_token %}
+                    {% if room.created_by == request.user %}
+                        <button type="submit" class="delete-room-btn">Delete</button>
+                    {% else %}
+                        <button type="button" class="disabled-btn" disabled>Delete</button>
+                    {% endif %}
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
